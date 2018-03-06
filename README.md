@@ -14,9 +14,7 @@ sudo mv nrfjprog/* /usr/bin && rm -d nrfjprog
 ```
 
 ### Install JLinkArm
-Download https://www.segger.com/downloads/jlink/JLink_Linux_V630_x86_64.deb into `Downloads` directory
+In the root of the repo directory:
 ```
-cd Downloads
 sudo dpkg -i JLink_Linux_V630_x86_64.deb
-rm JLink_Linux_V630_x86_64.deb
 ```
