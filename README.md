@@ -14,9 +14,15 @@ sudo mv nrfjprog/* /usr/bin && rm -d nrfjprog
 ```
 
 ### Install JLinkArm
-Download https://www.segger.com/downloads/jlink/JLink_Linux_V630_x86_64.deb into `Downloads` directory
 ```
-cd Downloads
+cd setup
 sudo dpkg -i JLink_Linux_V630_x86_64.deb
-rm JLink_Linux_V630_x86_64.deb
 ```
+
+### Remove DAL
+* Hold down reset on the microbit
+* Copy `JLink_OB_BBC_microbit_17-03-24.hex` from setup onto the microbit
+```
+nrfjprog -f nrf51 -e
+```
+* The led matrix on the microbit will then turn off
