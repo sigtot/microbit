@@ -1,0 +1,8 @@
+#ifndef UART_UART_H
+#define UART_UART_H
+
+void uart_init();
+void uart_send(char letter);
+char uart_read();
+
+#endif //UART_UART_H
