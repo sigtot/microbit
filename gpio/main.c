@@ -30,7 +30,7 @@ int main(){
 	while(1){
         /* Check if button B is pressed;
          * turn on LED matrix if it is. */
-        if((GPIO->IN & (1 << 26)) == GPIO->PIN_CNF[26]) {
+        if((GPIO->IN & (1 << 26))) {
             GPIO->OUTSET = (1 << 13);
             GPIO->OUTSET = (1 << 14);
             GPIO->OUTSET = (1 << 15);
@@ -38,7 +38,7 @@ int main(){
 
         /* Check if button A is pressed;
          * turn off LED matrix if it is. */
-        if((GPIO->IN & (1 << 17)) == GPIO->PIN_CNF[17]) {
+        if((GPIO->IN & (1 << 17))) {
             GPIO->OUTCLR = (1 << 13);
             GPIO->OUTCLR = (1 << 14);
             GPIO->OUTCLR = (1 << 15);

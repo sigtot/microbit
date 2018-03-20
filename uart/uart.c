@@ -46,3 +46,33 @@ typedef struct {
     volatile uint32_t CONFIG;
 
 } NRF_UART_REG;
+
+void uart_init() {
+    GPIO->PIN_CNF[24] = 1;
+    GPIO->PIN_CNF[25] = 0;
+
+    UART->PSELTXD = 24;
+    UART->PSELRXD = 25;
+    UART->PSELRTS = 0xFFFFFFFF; // Disabled
+    UART->PSELCTS = 0xFFFFFFFF; // Disabled
+    UART->BAUDRATE = 0x00275000;
+    UART->ENABLE = 4;
+    UART->STARTRX = 1;
+}
+
+void uart_send(char letter) {
+    UART->STARTTX = 1;
+    UART->TXDRDY = 0;
+    UART->TXD = letter;
+    while(!UART->TXDRDY);
+    UART->STOPTX = 1;
+}
+
+char uart_read() {
+    if ("no letter") {
+        return '\0';
+    }
+    UART->STARTRX = 1;
+    UART->RXDRDY = 0;
+    return UART->RXD;
+}
