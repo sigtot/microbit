@@ -1,7 +1,9 @@
 #include "gpio.h"
 #include "uart.h"
+#include <stdio.h>
 
 void toggle_leds();
+ssize_t _write(int fd, const void *buf, size_t count);
 
 int main(){
     // Configure LED Matrix
@@ -15,6 +17,8 @@ int main(){
     GPIO->PIN_CNF[26] = 0; // Button B
 
     uart_init();
+
+    iprintf("Norway has %d counties.\n\r", 18);
 
     while(1){
         // Read value from computer
@@ -52,4 +56,13 @@ void toggle_leds() {
         GPIO->OUTSET = (1 << 15);
         leds_on = 1;
     }
+}
+
+ssize_t _write(int fd, const void *buf, size_t count){
+    char * letter = (char *)(buf);
+    for(int i = 0; i < count; i++){
+        uart_send(*letter);
+        letter++;
+    }
+    return count;
 }
