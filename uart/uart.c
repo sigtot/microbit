@@ -69,10 +69,12 @@ void uart_send(char letter) {
 }
 
 char uart_read() {
-    if ("no letter") {
+    if (UART->RXDRDY) {
+        UART->STARTRX = 1;
+        char rx = UART->RXD;
+        UART->STOPRX = 1;
+        return rx;
+    } else {
         return '\0';
     }
-    UART->STARTRX = 1;
-    UART->RXDRDY = 0;
-    return UART->RXD;
 }
