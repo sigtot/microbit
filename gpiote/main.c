@@ -3,15 +3,21 @@
 #include "ppi.h"
 
 int main() {
+	// Set ground pins to low
+	for(int i = 4; i <= 15; i++){
+		GPIO->DIRSET = (1 << i);
+		GPIO->OUTCLR = (1 << i);
+	}
+
 	// Configure A-button event
-	GPIOTE->CONFIG[0] = (17 << 8) | 1 | (2 << 16); // PSEL = 17 | MODE = Event | POLARITY = HiToLo
+	GPIOTE->CONFIG[0] = (2 << 16) | (17 << 8) | 1; // POLARITY = HiToLo | PSEL = 17 | MODE = Event
 
-	// Configure led-pins tasks
-	GPIOTE->CONFIG[1] = (13 << 8) | 3 | (3 << 16); // PSEL = 13 | MODE = Task | POLARITY = Toggle
-    GPIOTE->CONFIG[2] = (14 << 8) | 3 | (3 << 16); // PSEL = 14 | MODE = Task | POLARITY = Toggle
-   	GPIOTE->CONFIG[3] = (15 << 8) | 3 | (3 << 16); // PSEL = 15 | MODE = Task | POLARITY = Toggle
+	// Configure led-pin tasks
+	GPIOTE->CONFIG[1] = (1 << 20) | (3 << 16) | (13 << 8) | 3; // OUTINIT = 1 | POLARITY = Toggle | PSEL = 13 | MODE = Task
+    GPIOTE->CONFIG[2] = (1 << 20) | (3 << 16) | (14 << 8) | 3; // OUTINIT = 1 | POLARITY = Toggle | PSEL = 14 | MODE = Task
+   	GPIOTE->CONFIG[3] = (1 << 20) | (3 << 16) | (15 << 8) | 3; // OUTINIT = 1 | POLARITY = Toggle | PSEL = 15 | MODE = Task
 
-   	// Configure ppi shit
+   	// Configure PPI channels
    	PPI->PPI_CH[0].EEP = (uint32_t)&(GPIOTE->IN[0]);
 	PPI->PPI_CH[0].TEP = (uint32_t)&(GPIOTE->OUT[1]);
 
@@ -20,9 +26,10 @@ int main() {
 
 	PPI->PPI_CH[2].EEP = (uint32_t)&(GPIOTE->IN[0]);
 	PPI->PPI_CH[2].TEP = (uint32_t)&(GPIOTE->OUT[3]);
+
+	// Enable PPI channels
 	PPI->CHENSET = (1 << 0) | (1 << 1) | (1 << 2);
 
 	while(1);
-
 	return 0;
 }
