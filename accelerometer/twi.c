@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include "twi.h"
 #include "gpio.h"
+#include "uart.h"
 
 #define TWI0 ((NRF_TWI_REG*)0x40003000)
 
@@ -78,7 +79,9 @@ void twi_multi_read(
 
 	TWI0->TXDSENT = 0;
 	TWI0->TXD = start_register;
+
 	while(!TWI0->TXDSENT);
+	uart_send('\0'); // Black magic
 
 	TWI0->RXDREADY = 0;
 	TWI0->STARTRX = 1;
