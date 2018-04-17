@@ -17,7 +17,7 @@
  */
 
 SEARCH_DIR(.)
-GROUP(-lgcc -lc -lnosys)
+GROUP(-lgcc -lc -lnosys -lm)
 
 MEMORY
 {
